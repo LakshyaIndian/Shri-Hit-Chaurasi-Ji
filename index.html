@@ -296,7 +296,45 @@ function createPadCard(pad, pIdx) {
         refreshWrite();
         body.appendChild(display);
         body.appendChild(input);
-    } 
+    }
+        else if (state.mode === 'shuffle') {
+    const shuffleCont = document.createElement('div');
+    shuffleCont.className = 'shuffle-container';
+    
+    // Create an indexed map to track original order
+    let linesWithIndex = pad.l.map((text, index) => ({ text, index }));
+    
+    // Shuffle the lines randomly
+    let shuffledLines = [...linesWithIndex].sort(() => Math.random() - 0.5);
+    
+    let nextRequiredIndex = 0; // The index of the line the user MUST click next
+
+    shuffledLines.forEach((lineObj) => {
+        const item = document.createElement('div');
+        item.className = 'shuffle-item';
+        item.innerText = lineObj.text;
+
+        item.onclick = () => {
+            // Check if the clicked line is the correct next one in sequence
+            if (lineObj.index === nextRequiredIndex) {
+                item.classList.add('correct');
+                item.onclick = null; // Disable further clicks on this item
+                nextRequiredIndex++;
+                
+                // If all lines are correctly ordered
+                if (nextRequiredIndex === pad.l.length) {
+                    setTimeout(() => alert("जय श्री हित हरिवंश! आपने पद पूर्ण किया।"), 300);
+                }
+            } else {
+                // Flash red if wrong
+                item.classList.add('wrong');
+                setTimeout(() => item.classList.remove('wrong'), 400);
+            }
+        };
+        shuffleCont.appendChild(item);
+    });
+    body.appendChild(shuffleCont);
+}
     else {
         pad.l.forEach((line, lIdx) => {
             const div = document.createElement('div');

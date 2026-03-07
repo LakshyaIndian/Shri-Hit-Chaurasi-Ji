@@ -3,50 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hit Chaurasi Memorizer</title>
+    <title>श्री हित चतुरासी रटंत</title>
     <link rel="manifest" href="manifest.json">
     <style>
         :root {
-            --bg: #FFFAF0; /* Sandalwood off-white */
-            --primary: #FF8C00; /* Saffron */
+            --bg: #FFFAF0; 
+            --primary: #FF8C00; 
             --text: #2F4F4F;
             --card-bg: #FFFFFF;
-            --accent-green: #2E7D32; /* Nikunj Green */
+            --accent-green: #2E7D32;
             --error: #D32F2F;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
-            font-family: 'Segoe UI', Tahoma, Devanagari, sans-serif; 
+            font-family: 'Segoe UI', Devanagari, sans-serif; 
             background: var(--bg); 
             color: var(--text);
             margin: 0; padding: 0;
-            overflow-x: hidden;
         }
 
-        /* Header Styles */
         header {
             background: var(--primary);
             color: white;
-            padding: 10px;
+            padding: 15px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        #pad-title { font-size: 1.5rem; margin: 0; }
-
-        /* Navigation & Modes */
         .mode-bar {
             background: #fff;
             overflow-x: auto;
-            white-space: nowrap;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
             display: flex;
             gap: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 55px;
+            z-index: 99;
         }
 
         .btn {
@@ -56,84 +52,63 @@
             border-radius: 20px;
             font-size: 0.9rem;
             cursor: pointer;
+            white-space: nowrap;
         }
         .btn.active { background: var(--primary); color: white; }
 
-        /* Layout Container */
-        #content {
-            padding: 20px;
-            transition: all 0.3s;
-        }
-
-        /* Layout Modes */
+        #content { padding: 20px; padding-bottom: 80px; }
+        
+        /* Layout Styles */
         .layout-infinite { display: block; }
         .layout-horizontal {
             display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
-            padding: 0;
         }
         .layout-horizontal .pad-card {
-            min-width: 100vw;
+            min-width: calc(100vw - 40px);
+            margin-right: 20px;
             scroll-snap-align: start;
-            padding: 20px;
         }
 
-        /* Pad Card */
         .pad-card {
             background: var(--card-bg);
             border-radius: 12px;
-            padding: 25px;
+            padding: 20px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .line {
-            font-size: 1.4rem;
-            line-height: 2;
-            margin-bottom: 10px;
-            min-height: 1.4em;
+            font-size: 1.3rem;
+            line-height: 2.2;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
         }
-        .line.hidden { color: transparent; background: #eee; border-radius: 4px; cursor: pointer; }
-        .line.cloze-hidden { color: transparent; background: #ddd; display: inline-block; min-width: 60px; border-radius: 4px; }
 
-        /* Writing Mode */
-        .writing-area { margin-top: 20px; border-top: 2px dashed #eee; padding-top: 20px; }
+        /* Feature Styles */
+        .line.hidden { color: transparent; background: #f0f0f0; border-radius: 4px; }
         .writing-input {
             width: 100%;
             font-size: 1.2rem;
             padding: 12px;
+            margin-top: 15px;
             border: 2px solid #ddd;
             border-radius: 8px;
-            outline: none;
         }
-        .writing-input.error { border-color: var(--error); background: #FFEBEE; }
-        .char-feedback { margin-top: 10px; font-weight: bold; }
+        .writing-input.wrong { border-color: var(--error); background: #fff1f1; }
+        .feedback { color: var(--error); margin-top: 8px; font-weight: bold; }
 
-        /* Shuffling Game */
-        .shuffle-container { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
         .shuffle-item {
             background: #f9f9f9;
-            padding: 12px;
+            padding: 10px;
+            margin: 5px 0;
             border: 1px solid #ddd;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1.1rem;
+            border-radius: 5px;
+            cursor: move;
         }
-        .shuffle-item.correct { background: #E8F5E9; border-color: var(--accent-green); color: var(--accent-green); }
+        .shuffle-item.correct { background: #e8f5e9; border-color: var(--accent-green); }
 
-        /* Status Pills */
-        .status-bar { margin-top: 20px; display: flex; gap: 5px; }
-        .pill { 
-            padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; 
-            border: 1px solid #ddd; cursor: pointer; 
-        }
-        .pill.active[data-status="Reading"] { background: #BBDEFB; }
-        .pill.active[data-status="Learning"] { background: #FFF9C4; }
-        .pill.active[data-status="Mastered"] { background: #C8E6C9; }
-
-        /* Footer Nav */
         footer {
             position: fixed; bottom: 0; width: 100%;
             background: white; border-top: 1px solid #ddd;
@@ -143,29 +118,25 @@
 </head>
 <body>
 
-<header>
-    <div id="pad-title">पद 1</div>
-</header>
+<header><h1 id="pad-label" style="margin:0; font-size: 1.2rem;">श्री हित चतुरासी</h1></header>
 
 <div class="mode-bar">
-    <button class="btn active" onclick="setMode('reading')">Reading</button>
-    <button class="btn" onclick="setMode('reveal')">Reveal</button>
-    <button class="btn" onclick="setMode('cloze')">Cloze</button>
-    <button class="btn" onclick="setMode('writing')">Writing</button>
-    <button class="btn" onclick="setMode('shuffle')">Shuffle</button>
-    <button class="btn" onclick="toggleScroll()">Scroll: Vert</button>
+    <button class="btn active" onclick="setMode('reading', this)">मूल पाठ</button>
+    <button class="btn" onclick="setMode('reveal', this)">पंक्ति-दर-पंक्ति</button>
+    <button class="btn" onclick="setMode('writing', this)">लेखन अभ्यास</button>
+    <button class="btn" onclick="setMode('shuffle', this)">क्रम सुधार</button>
+    <button class="btn" onclick="toggleLayout(this)">दृश्य: लंबवत</button>
 </div>
 
-<div id="content" class="layout-infinite">
-    </div>
+<div id="content" class="layout-infinite"></div>
 
-<footer>
-    <button class="btn" onclick="changePad(-1)">Prev</button>
-    <button class="btn" onclick="changePad(1)">Next</button>
+<footer id="nav-footer" style="display:none;">
+    <button class="btn" onclick="nav(-1)">पिछला पद</button>
+    <button class="btn" onclick="nav(1)">अगला पद</button>
 </footer>
 
 <script>
-// FULL 84 PAD DATA (Condensed for size, logic remains same)
+// The full 84 pads data object [cite: 2-989]
 const chaurasiData = [
     { n: 1, l: ["जोई-जोई प्यारौ करै सोई मोहि भावै,", "भावै मोहि जोई सोई-सोई करें प्यारे ।", "मोकों तौ भावती ठौर प्यारे के नैनन में,", "प्यारौ भयौ चाहै मेरे नैंनन के तारे ॥", "मेरे तन मन प्राण हूँ ते प्रीतम प्रिय,", "अपने कोटिक प्राण प्रीतम मोसों हारे ।", "(जै श्री) हित हरिवंश हंस-हंसिनी साँवल-गौर,", "कहौ कौन करै जल-तरंगनि न्यारे ।। 1 ।"] },
     { n: 2, l: ["प्यारे बोली भामिनी आजु नीकी जामिनी ।", "भेंट नवीन मेघ सों दामिनी ।।", "मोहन रसिक-राइरी माई, तासौं जु-", "मान करै, ऐसी कौन कामिनी ।", "(जै श्री) हित हरिवंश श्रवण सुनत प्यारी,", "राधिका रवन सों मिली गज-गामिनी ॥2॥"] },
@@ -250,180 +221,142 @@ const chaurasiData = [
 ];
 
 // App State
-let currentIndex = 0;
-let currentMode = 'reading'; // reading, reveal, cloze, writing, shuffle
-let isInfinite = true;
-let padStatus = JSON.parse(localStorage.getItem('hitChaurasiStatus') || '{}');
+let state = {
+    idx: 0,
+    mode: 'reading', // reading, reveal, writing, shuffle
+    isVert: true,
+    status: JSON.parse(localStorage.getItem('chaurasi_progress') || '{}')
+};
 
 function render() {
-    const container = document.getElementById('content');
-    container.innerHTML = '';
-    
-    if (isInfinite) {
-        chaurasiData.forEach((pad, idx) => {
-            container.appendChild(createPadElement(pad, idx));
-        });
-        document.getElementById('pad-title').innerText = "All Pads";
+    const cont = document.getElementById('content');
+    cont.innerHTML = '';
+    document.getElementById('nav-footer').style.display = state.isVert ? 'none' : 'flex';
+
+    if (state.isVert) {
+        chaurasiData.forEach((p, i) => cont.appendChild(createCard(p, i)));
     } else {
-        container.appendChild(createPadElement(chaurasiData[currentIndex], currentIndex));
-        document.getElementById('pad-title').innerText = "पद " + chaurasiData[currentIndex].n;
+        cont.appendChild(createCard(chaurasiData[state.idx], state.idx));
+        document.getElementById('pad-label').innerText = "पद " + chaurasiData[state.idx].n;
     }
 }
 
-function createPadElement(pad, idx) {
+function createCard(pad, i) {
     const card = document.createElement('div');
     card.className = 'pad-card';
-    card.id = `pad-${idx}`;
-
-    const title = document.createElement('div');
-    title.style.fontWeight = 'bold';
-    title.style.marginBottom = '15px';
-    title.innerText = "पद " + pad.n;
-    card.appendChild(title);
-
-    const textDiv = document.createElement('div');
     
-    if (currentMode === 'shuffle') {
-        const shuffleCont = document.createElement('div');
-        shuffleCont.className = 'shuffle-container';
-        let shuffled = [...pad.l].sort(() => Math.random() - 0.5);
-        let correctIdx = 0;
-        
-        shuffled.forEach(lineText => {
-            const item = document.createElement('div');
-            item.className = 'shuffle-item';
-            item.innerText = lineText;
-            item.onclick = () => {
-                if (lineText === pad.l[correctIdx]) {
-                    item.classList.add('correct');
-                    correctIdx++;
-                    if (correctIdx === pad.l.length) alert("Correct Sequence!");
-                } else {
-                    item.style.borderColor = 'red';
-                    setTimeout(() => item.style.borderColor = '#ddd', 500);
-                }
-            };
-            shuffleCont.appendChild(item);
-        });
-        card.appendChild(shuffleCont);
-    } 
-    else if (currentMode === 'writing') {
-        let revealedUntil = 0;
-        const writingArea = document.createElement('div');
-        writingArea.className = 'writing-area';
-        
+    const h = document.createElement('h3');
+    h.innerText = "पद " + pad.n;
+    card.appendChild(h);
+
+    const body = document.createElement('div');
+
+    if (state.mode === 'writing') {
+        let currentLine = 0;
+        const textDisplay = document.createElement('div');
         const input = document.createElement('input');
         input.className = 'writing-input';
-        input.placeholder = "Next line in Hindi...";
-        
+        input.placeholder = "अगली पंक्ति यहाँ लिखें...";
         const feedback = document.createElement('div');
-        feedback.className = 'char-feedback';
+        feedback.className = 'feedback';
 
-        pad.l.forEach((line, i) => {
-            const l = document.createElement('div');
-            l.className = 'line';
-            l.innerText = line;
-            if (i > revealedUntil) l.style.display = 'none';
-            textDiv.appendChild(l);
-        });
+        const updateDisplay = () => {
+            textDisplay.innerHTML = pad.l.slice(0, currentLine).map(line => `<div class="line">${line}</div>`).join('');
+        };
+        updateDisplay();
 
         input.oninput = (e) => {
-            const target = pad.l[revealedUntil];
+            const target = pad.l[currentLine];
             const val = e.target.value;
-            
             if (target.startsWith(val)) {
-                input.classList.remove('error');
+                input.classList.remove('wrong');
                 feedback.innerText = "";
                 if (val === target) {
-                    textDiv.children[revealedUntil].style.display = 'block';
-                    revealedUntil++;
+                    currentLine++;
                     e.target.value = "";
-                    if (revealedUntil === pad.l.length) alert("Pad Complete!");
+                    updateDisplay();
+                    if (currentLine === pad.l.length) feedback.innerText = "पूर्ण हुआ!";
                 }
             } else {
-                input.classList.add('error');
-                for (let i = 0; i < val.length; i++) {
-                    if (val[i] !== target[i]) {
-                        feedback.innerHTML = `Wrong character at position ${i+1}: <span style="color:red">${val[i]}</span> (Expected: <span style="color:blue">${target[i]}</span>)`;
-                        break;
-                    }
-                }
+                input.classList.add('wrong');
+                feedback.innerText = "गलत अक्षर: " + val.slice(-1) + " (अपेक्षित: " + target[val.length-1] + ")";
             }
         };
-
-        writingArea.appendChild(input);
-        writingArea.appendChild(feedback);
-        card.appendChild(textDiv);
-        card.appendChild(writingArea);
+        body.appendChild(textDisplay);
+        body.appendChild(input);
+        body.appendChild(feedback);
+    } 
+    else if (state.mode === 'shuffle') {
+        let lines = [...pad.l].sort(() => Math.random() - 0.5);
+        let correctCount = 0;
+        lines.forEach(txt => {
+            const item = document.createElement('div');
+            item.className = 'shuffle-item';
+            item.innerText = txt;
+            item.onclick = () => {
+                if (txt === pad.l[correctCount]) {
+                    item.classList.add('correct');
+                    correctCount++;
+                } else {
+                    item.style.background = '#ffdada';
+                    setTimeout(() => item.style.background = '#f9f9f9', 500);
+                }
+            };
+            body.appendChild(item);
+        });
     }
     else {
-        pad.l.forEach((line, i) => {
-            const l = document.createElement('div');
-            l.className = 'line';
-            
-            if (currentMode === 'reveal' && i > 0) l.classList.add('hidden');
-            if (currentMode === 'cloze') {
-                const words = line.split(' ');
-                l.innerHTML = words.map(w => Math.random() > 0.7 ? `<span class="cloze-hidden">${w}</span>` : w).join(' ');
-            } else {
-                l.innerText = line;
-            }
-
-            l.onclick = () => l.classList.remove('hidden');
-            textDiv.appendChild(l);
+        pad.l.forEach((txt, li) => {
+            const div = document.createElement('div');
+            div.className = 'line';
+            if (state.mode === 'reveal' && li > 0) div.classList.add('hidden');
+            div.innerText = txt;
+            div.onclick = () => div.classList.remove('hidden');
+            body.appendChild(div);
         });
-        card.appendChild(textDiv);
     }
+    card.appendChild(body);
 
-    // Status Pills
-    const statusBar = document.createElement('div');
-    statusBar.className = 'status-bar';
-    ['Reading', 'Learning', 'Mastered'].forEach(status => {
-        const p = document.createElement('div');
-        p.className = 'pill' + (padStatus[pad.n] === status ? ' active' : '');
-        p.dataset.status = status;
-        p.innerText = status;
-        p.onclick = () => {
-            padStatus[pad.n] = status;
-            localStorage.setItem('hitChaurasiStatus', JSON.stringify(padStatus));
+    // Status Buttons
+    const foot = document.createElement('div');
+    foot.style.marginTop = '15px';
+    ['पढ़ रहे', 'सीख रहे', 'कंठस्थ'].forEach(s => {
+        const b = document.createElement('button');
+        b.className = 'btn';
+        b.style.marginRight = '5px';
+        b.innerText = s;
+        if (state.status[pad.n] === s) b.classList.add('active');
+        b.onclick = () => {
+            state.status[pad.n] = s;
+            localStorage.setItem('chaurasi_progress', JSON.stringify(state.status));
             render();
         };
-        statusBar.appendChild(p);
+        foot.appendChild(b);
     });
-    card.appendChild(statusBar);
+    card.appendChild(foot);
 
     return card;
 }
 
-function setMode(m) {
-    currentMode = m;
+function setMode(m, el) {
+    state.mode = m;
     document.querySelectorAll('.mode-bar .btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
+    el.classList.add('active');
     render();
 }
 
-function toggleScroll() {
-    isInfinite = !isInfinite;
-    const cont = document.getElementById('content');
-    cont.className = isInfinite ? 'layout-infinite' : 'layout-horizontal';
-    event.target.innerText = isInfinite ? "Scroll: Vert" : "Scroll: Horiz";
+function toggleLayout(el) {
+    state.isVert = !state.isVert;
+    el.innerText = state.isVert ? "दृश्य: लंबवत" : "दृश्य: क्षैतिज";
     render();
 }
 
-function changePad(step) {
-    if (isInfinite) return;
-    currentIndex = Math.max(0, Math.min(chaurasiData.length - 1, currentIndex + step));
+function nav(step) {
+    state.idx = Math.max(0, Math.min(chaurasiData.length - 1, state.idx + step));
     render();
 }
 
 render();
-
-// Register Service Worker for PWA
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js');
-  });
-}
 </script>
 </body>
 </html>

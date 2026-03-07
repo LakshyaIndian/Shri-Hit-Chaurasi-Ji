@@ -22,26 +22,22 @@
             position: sticky; top: 0; z-index: 1000;
         }
 
-        /* Tab Management */
         #tab-pads, #tab-grid { display: none; padding: 20px; padding-bottom: 100px; }
         .active-tab { display: block !important; }
 
         .mode-bar {
             background: var(--card-bg); overflow-x: auto; display: flex; gap: 8px;
             padding: 10px; border-bottom: 1px solid #444; position: sticky; top: 55px; z-index: 999;
-            <button class="btn" onclick="setMode('shuffle', this)">क्रम सुधार</button>
         }
         .btn { background: #eee; border: none; padding: 8px 12px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; white-space: nowrap; }
         [data-theme="dark"] .btn { background: #333; color: #ccc; }
         .btn.active { background: var(--primary); color: white; }
 
-        /* Small Grid Access Box */
         .grid-trigger {
             background: var(--primary); color: white; padding: 10px; border-radius: 8px;
             margin-bottom: 15px; text-align: center; cursor: pointer; font-weight: bold;
         }
 
-        /* Grid Tab Styles */
         .grid-container { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
         .grid-item { 
             aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
@@ -50,56 +46,28 @@
         .grid-item.mastered { background: var(--accent); color: white; }
         .grid-item.learning { background: #FFD54F; color: black; }
 
-        /* Pad Card & Features */
         .pad-card { background: var(--card-bg); border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .line { font-size: 1.35rem; line-height: 2; margin-bottom: 8px; border-bottom: 1px solid #f0f0f033; }
         
-        /* Reveal Logic */
-        .hidden-line { display: none; }
         .hidden-word { color: transparent; background: #88888844; border-radius: 4px; padding: 0 4px; cursor: pointer; }
 
-/* Shuffle Mode Styles */
-.shuffle-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 15px;
-}
+        /* Shuffle Mode Styles */
+        .shuffle-container { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .shuffle-item {
+            background: var(--card-bg); padding: 12px; border: 1px solid #888; border-radius: 8px;
+            cursor: pointer; font-size: 1.1rem; line-height: 1.4; transition: all 0.2s ease;
+        }
+        .shuffle-item.correct { background: var(--accent) !important; color: white !important; border-color: var(--accent); cursor: default; }
 
-.shuffle-item {
-    background: var(--card-bg);
-    padding: 12px;
-    border: 1px solid #888;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    line-height: 1.4;
-    transition: all 0.2s ease;
-}
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+        .shuffle-item.wrong { border-color: var(--error); animation: shake 0.3s; }
 
-/* Correct selection turns Green */
-.shuffle-item.correct {
-    background: var(--accent) !important;
-    color: white !important;
-    border-color: var(--accent);
-    cursor: default;
-}
-
-/* Wrong selection shake effect */
-@keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-    100% { transform: translateX(0); }
-}
-
-.shuffle-item.wrong {
-    border-color: var(--error);
-    animation: shake 0.3s;
-}
-        
-        /* Writing Mode */
         .writing-input { width: 100%; font-size: 1.2rem; padding: 12px; border-radius: 8px; border: 2px solid #888; background: var(--card-bg); color: var(--text); }
         .writing-input.wrong { border-color: var(--error); }
 
@@ -121,6 +89,7 @@
         <button class="btn" onclick="setMode('line-reveal', this)">पंक्ति-प्रकट</button>
         <button class="btn" onclick="setMode('word-reveal', this)">शब्द-प्रकट</button>
         <button class="btn" onclick="setMode('writing', this)">लेखन</button>
+        <button class="btn" onclick="setMode('shuffle', this)">क्रम सुधार</button>
         <button class="btn" onclick="toggleVertical(this)">दृश्य: एकल</button>
     </div>
 
@@ -138,6 +107,7 @@
 </footer>
 
 <script>
+// यहाँ केवल नमूना डेटा है, आपको 84 पदों का पूरा डेटा 'chaurasiData' में डालना होगा
 const chaurasiData = [
     { n: 1, l: ["जोई-जोई प्यारौ करै सोई मोहि भावै,", "भावै मोहि जोई सोई-सोई करें प्यारे ।", "मोकों तौ भावती ठौर प्यारे के नैनन में,", "प्यारौ भयौ चाहै मेरे नैंनन के तारे ॥", "मेरे तन मन प्राण हूँ ते प्रीतम प्रिय,", "अपने कोटिक प्राण प्रीतम मोसों हारे ।", "(जै श्री) हित हरिवंश हंस-हंसिनी साँवल-गौर,", "कहौ कौन करै जल-तरंगनि न्यारे ।। 1 ।"] },
     { n: 2, l: ["प्यारे बोली भामिनी आजु नीकी जामिनी ।", "भेंट नवीन मेघ सों दामिनी ।।", "मोहन रसिक-राइरी माई, तासौं जु-", "मान करै, ऐसी कौन कामिनी ।", "(जै श्री) हित हरिवंश श्रवण सुनत प्यारी,", "राधिका रवन सों मिली गज-गामिनी ॥2॥"] },
@@ -277,11 +247,9 @@ function createPadCard(pad, pIdx) {
         const input = document.createElement('input');
         input.className = 'writing-input';
         input.placeholder = "अगली पंक्ति लिखें...";
-        
         const refreshWrite = () => {
             display.innerHTML = pad.l.slice(0, state.revealedLines).map(l => `<div class="line">${l}</div>`).join('');
         };
-        
         input.oninput = (e) => {
             const target = pad.l[state.revealedLines];
             if (target && target.startsWith(e.target.value)) {
@@ -296,50 +264,39 @@ function createPadCard(pad, pIdx) {
         refreshWrite();
         body.appendChild(display);
         body.appendChild(input);
-    }
-        else if (state.mode === 'shuffle') {
-    const shuffleCont = document.createElement('div');
-    shuffleCont.className = 'shuffle-container';
-    
-    // Create an indexed map to track original order
-    let linesWithIndex = pad.l.map((text, index) => ({ text, index }));
-    
-    // Shuffle the lines randomly
-    let shuffledLines = [...linesWithIndex].sort(() => Math.random() - 0.5);
-    
-    let nextRequiredIndex = 0; // The index of the line the user MUST click next
+    } 
+    else if (state.mode === 'shuffle') {
+        const shuffleCont = document.createElement('div');
+        shuffleCont.className = 'shuffle-container';
+        let linesWithIndex = pad.l.map((text, index) => ({ text, index }));
+        let shuffledLines = [...linesWithIndex].sort(() => Math.random() - 0.5);
+        let nextRequiredIndex = 0;
 
-    shuffledLines.forEach((lineObj) => {
-        const item = document.createElement('div');
-        item.className = 'shuffle-item';
-        item.innerText = lineObj.text;
-
-        item.onclick = () => {
-            // Check if the clicked line is the correct next one in sequence
-            if (lineObj.index === nextRequiredIndex) {
-                item.classList.add('correct');
-                item.onclick = null; // Disable further clicks on this item
-                nextRequiredIndex++;
-                
-                // If all lines are correctly ordered
-                if (nextRequiredIndex === pad.l.length) {
-                    setTimeout(() => alert("जय श्री हित हरिवंश! आपने पद पूर्ण किया।"), 300);
+        shuffledLines.forEach((lineObj) => {
+            const item = document.createElement('div');
+            item.className = 'shuffle-item';
+            item.innerText = lineObj.text;
+            item.onclick = () => {
+                if (lineObj.index === nextRequiredIndex) {
+                    item.classList.add('correct');
+                    item.onclick = null;
+                    nextRequiredIndex++;
+                    if (nextRequiredIndex === pad.l.length) {
+                        setTimeout(() => alert("जय श्री हित हरिवंश! आपने पद पूर्ण किया।"), 300);
+                    }
+                } else {
+                    item.classList.add('wrong');
+                    setTimeout(() => item.classList.remove('wrong'), 400);
                 }
-            } else {
-                // Flash red if wrong
-                item.classList.add('wrong');
-                setTimeout(() => item.classList.remove('wrong'), 400);
-            }
-        };
-        shuffleCont.appendChild(item);
-    });
-    body.appendChild(shuffleCont);
-}
+            };
+            shuffleCont.appendChild(item);
+        });
+        body.appendChild(shuffleCont);
+    }
     else {
         pad.l.forEach((line, lIdx) => {
             const div = document.createElement('div');
             div.className = 'line';
-            
             if (state.mode === 'line-reveal' && lIdx >= state.revealedLines) {
                 div.innerText = "--- पंक्ति प्रकट करें ---";
                 div.style.cursor = "pointer";
@@ -358,7 +315,6 @@ function createPadCard(pad, pIdx) {
         });
     }
     
-    // Status Logic
     const sBar = document.createElement('div');
     sBar.style.marginTop = '15px';
     ['Reading', 'Learning', 'Mastered'].forEach(s => {

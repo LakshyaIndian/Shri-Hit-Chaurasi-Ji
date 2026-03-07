@@ -1,0 +1,15 @@
+{
+  "name": "Hit Chaurasi Memorizer",
+  "short_name": "Chaurasi",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FFFAF0",
+  "theme_color": "#FF8C00",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/330/330439.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

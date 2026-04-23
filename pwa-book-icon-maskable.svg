@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Shri Hit Chaurasi maskable PWA icon">
+  <defs>
+    <linearGradient id="bg" x1="72" y1="56" x2="440" y2="456" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFD79A"/>
+      <stop offset="0.45" stop-color="#DE7A11"/>
+      <stop offset="1" stop-color="#7B2D00"/>
+    </linearGradient>
+    <linearGradient id="pageLeft" x1="154" y1="192" x2="236" y2="328" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF8EA"/>
+      <stop offset="1" stop-color="#F3DFC2"/>
+    </linearGradient>
+    <linearGradient id="pageRight" x1="276" y1="192" x2="358" y2="328" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF9ED"/>
+      <stop offset="1" stop-color="#F2DEC1"/>
+    </linearGradient>
+    <linearGradient id="spine" x1="256" y1="170" x2="256" y2="338" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6F2200"/>
+      <stop offset="1" stop-color="#4A1500"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#4E1A00" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="128" fill="url(#bg)"/>
+  <circle cx="256" cy="156" r="112" fill="rgba(255,247,228,0.14)"/>
+
+  <g filter="url(#shadow)">
+    <path d="M256 162C230 158 178 164 140 182V340C175 324 230 320 256 324Z" fill="url(#pageLeft)"/>
+    <path d="M256 162C282 158 334 164 372 182V340C337 324 282 320 256 324Z" fill="url(#pageRight)"/>
+    <path d="M256 162C232 158 180 164 144 180" fill="none" stroke="#8B3A06" stroke-width="9" stroke-linecap="round"/>
+    <path d="M256 162C280 158 332 164 368 180" fill="none" stroke="#8B3A06" stroke-width="9" stroke-linecap="round"/>
+    <path d="M144 340C180 324 232 320 256 324" fill="none" stroke="#8B3A06" stroke-width="9" stroke-linecap="round"/>
+    <path d="M368 340C332 324 280 320 256 324" fill="none" stroke="#8B3A06" stroke-width="9" stroke-linecap="round"/>
+    <rect x="245" y="158" width="22" height="186" rx="10" fill="url(#spine)"/>
+  </g>
+
+  <path d="M256 144L282 144L282 196L269 185L256 194L243 185L230 196L230 144Z" fill="#7A1E00" opacity="0.96"/>
+  <path d="M160 228H228" stroke="#C47E2B" stroke-width="9" stroke-linecap="round" opacity="0.72"/>
+  <path d="M160 258H228" stroke="#C47E2B" stroke-width="9" stroke-linecap="round" opacity="0.5"/>
+  <path d="M160 288H218" stroke="#C47E2B" stroke-width="7" stroke-linecap="round" opacity="0.38"/>
+  <path d="M284 228H352" stroke="#C47E2B" stroke-width="9" stroke-linecap="round" opacity="0.72"/>
+  <path d="M284 258H352" stroke="#C47E2B" stroke-width="9" stroke-linecap="round" opacity="0.5"/>
+  <path d="M294 288H352" stroke="#C47E2B" stroke-width="7" stroke-linecap="round" opacity="0.38"/>
+</svg>

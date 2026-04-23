@@ -1,15 +1,23 @@
 {
-  "name": "Hit Chaurasi Memorizer",
-  "short_name": "Chaurasi",
+  "name": "श्री हित चौरासी जी",
+  "short_name": "हित चौरासी",
+  "description": "श्री हित चौरासी जी के 84 पदों का अध्ययन एवं कण्ठस्थ करने का अभ्यास",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#FFFAF0",
-  "theme_color": "#FF8C00",
+  "background_color": "#9A3400",
+  "theme_color": "#B85400",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/330/330439.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ]
 }
